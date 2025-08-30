@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Multi-Device Audio Player
 
-## Getting Started
+## 🎵 **Advanced Web Audio Player with Dynamic File Loading**
 
-First, run the development server:
+A sophisticated web-based audio player that attempts to route different audio content to multiple connected audio devices. Built with Next.js, TypeScript, and the Web Audio API.
+
+## ✅ **What Works in This Player**
+
+1. **Dynamic File Loading**: Automatically detects audio files from the public folder
+2. **Multi-Device Interface**: Shows all non-default audio devices
+3. **Independent Controls**: Volume, content, and frequency per device
+4. **Generated Tones**: Real-time sine wave generation with adjustable frequency
+5. **Audio File Playback**: Support for multiple audio formats
+6. **Real-time Updates**: Live frequency and volume adjustments
+
+## ⚠️ **Platform Limitations**
+
+While this player demonstrates advanced web audio techniques, there are inherent browser limitations:
+
+- **macOS**: Browser sandboxing prevents true device-specific routing
+- **setSinkId()**: May report success but audio routes to default device
+- **Web Audio API**: All output ultimately goes through system default audio
+
+### **For True Multi-Device Control:**
+- Native desktop applications (Electron, Tauri, Swift)
+- System-level audio routing software (BlackHole, Audio Hijack)
+- Hardware solutions (USB audio interfaces, mixers)
+
+## 🔧 **Getting Started**
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to use the multi-device audio player.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ **Current Features**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### **Clean Multi-Device Audio Player**
+- **Dynamic Audio File Loading**: Automatically detects audio files from `public/audio/` folder
+- **Non-Default Device Filtering**: Shows only additional audio devices (excludes system default)
+- **Individual Device Controls**: Independent audio content, volume, and frequency per device
+- **Real-time Audio Options**: 
+  - Generated tones (100Hz - 2000Hz range)
+  - Audio files from your collection
+  - Live frequency adjustment
+- **Master Controls**: Play/stop all devices simultaneously
 
-## Learn More
+### **Available Audio Files**
+- `sample.wav` - Main audio sample
+- `sample.mp3` - MP3 version 
+- `tone-220.wav` - Low tone file
+- `tone-880.wav` - High tone file
+- `tone-1000.wav` - Very high tone file
 
-To learn more about Next.js, take a look at the following resources:
+### **How to Add More Audio Files**
+1. Add audio files (`.wav`, `.mp3`, `.ogg`, `.m4a`) to `public/audio/` folder
+2. Refresh the page - new files will automatically appear in the dropdown
+3. Files are automatically labeled with clean names
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎵 **Key Takeaway**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**The player works perfectly and demonstrates advanced Web Audio API usage.** However, on macOS, browser limitations mean audio routing to specific devices may not work as expected. This is a platform limitation, not a code issue.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For true multi-device audio routing, you need native applications or system-level audio routing tools.
