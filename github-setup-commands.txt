@@ -1,0 +1,22 @@
+# GitHub Setup Commands Template
+# Copy these commands and replace YOUR_USERNAME and YOUR_REPO_NAME with your actual values
+
+# Add GitHub remote (replace YOUR_USERNAME and YOUR_REPO_NAME)
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+
+# Ensure main branch 
+git branch -M main
+
+# Push to GitHub
+git push -u origin main
+
+# Example with actual values:
+# git remote add origin https://github.com/marcogeorge/audio-player-app.git
+# git branch -M main
+# git push -u origin main
+
+# After pushing, your GitHub Actions will automatically:
+# 1. Build the Next.js app
+# 2. Export static files
+# 3. Deploy to GitHub Pages
+# 4. Your app will be live at: https://YOUR_USERNAME.github.io/YOUR_REPO_NAME
