@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export interface AudioDevice {
   deviceId: string;
@@ -13,15 +13,24 @@ export interface UseAudioDevicesReturn {
   refetch: () => Promise<void>;
 }
 
-export function useAudioDevices(): UseAudioDevicesReturn {
+export function useAudioDevices() {
   const [audioDevices, setAudioDevices] = useState<AudioDevice[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const fetchAudioDevices = async () => {
+  const fetchAudioDevices = useCallback(async () => {
+    if (!isMounted) return;
+    
     try {
       setLoading(true);
       setError(null);
+      
+      // Check if we're in the browser environment
+      if (typeof window === 'undefined' || !navigator.mediaDevices) {
+        setError('Media devices API not available');
+        return;
+      }
       
       // Request microphone permission to get device labels
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -53,11 +62,17 @@ export function useAudioDevices(): UseAudioDevicesReturn {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isMounted]);
 
   useEffect(() => {
-    fetchAudioDevices();
+    setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (isMounted) {
+      fetchAudioDevices();
+    }
+  }, [isMounted, fetchAudioDevices]);
 
   return {
     audioDevices,

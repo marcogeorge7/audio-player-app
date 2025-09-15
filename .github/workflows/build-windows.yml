@@ -1,0 +1,46 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: "Windows targets to build (e.g., 'nsis portable')"
+        required: false
+        default: "nsis portable"
+        type: string
+
+jobs:
+  build-win:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-fund --no-audit
+
+      - name: Build Next.js (standalone)
+        run: npm run build
+
+      - name: Build Windows installer(s)
+        run: npx electron-builder --win ${{ inputs.targets }} --x64
+        env:
+          # Ensure electron-builder doesn't try to auto-discover code signing
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-dist
+          path: |
+            dist/*.exe
+            dist/*.msi
+            dist/*.zip
+            dist/*.7z
+

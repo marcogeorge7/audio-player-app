@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getApiBase } from '@/utils/api';
 
 export interface AudioFile {
   filename: string;
@@ -23,8 +24,21 @@ export function useAudioFiles(): UseAudioFilesReturn {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('/api/audio-files');
+      // Check if we're in the browser environment
+      if (typeof window === 'undefined') {
+        setError('Not in browser environment');
+        return;
+      }
+      
+      const base = getApiBase();
+      const url = `${base}/data/audio-files.json`;
+      console.log('📁 useAudioFiles - fetching:', url);
+      
+      const response = await fetch(url);
+      console.log('📁 useAudioFiles - response status:', response.status);
+      
       const data = await response.json();
+      console.log('📁 useAudioFiles - data:', data);
       
       if (!response.ok) {
         throw new Error(data.error || 'Failed to fetch audio files');
